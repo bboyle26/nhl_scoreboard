@@ -78,40 +78,6 @@ Find the host machine's local IP (e.g. `192.168.1.50`) and open `http://192.168.
 
 ---
 
-## Option B — Host it on Firebase
-
-Use this if you want the board reachable from anywhere, not just your home network.
-
-### Folder layout
-
-```
-your-project/
-├── firebase.json
-├── functions/
-│   ├── index.js
-│   └── package.json
-└── public/
-    └── nhl-jumbotron.html      (rename to index.html to serve it at the root)
-```
-
-### Steps
-
-1. Move `nhl-jumbotron.html` into a `public/` folder.
-2. Upgrade the project to the **Blaze (pay-as-you-go)** plan in the Firebase console under *Settings → Usage and billing*. Cloud Functions require Blaze. It asks for a card, but the free tier easily covers a personal scoreboard, so expect $0.
-3. Make sure the function serves **both** `/api/nhl` and `/api/nfl` (see the `SOURCES` map in `server.js`), and remember the ESPN User-Agent quirk above.
-4. Install the function's dependencies:
-   ```bash
-   cd functions && npm install && cd ..
-   ```
-5. Test locally with the emulator (this serves the page *and* the proxy together):
-   ```bash
-   firebase emulators:start
-   ```
-6. Deploy:
-   ```bash
-   firebase deploy
-   ```
-
 Your page then calls `/api/nhl` and `/api/nfl` on your Firebase domain, the function fetches the data behind the scenes, and there's no CORS error.
 
 ---
